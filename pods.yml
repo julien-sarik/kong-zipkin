@@ -1,0 +1,49 @@
+# Created with podman-4.6.2 generate kube
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kong-zipkin
+spec:
+  containers:
+  - args:
+    - kong
+    - docker-start
+    env:
+    - name: KONG_PROXY_LISTEN
+      value: 0.0.0.0:8000
+    - name: KONG_LOG_LEVEL
+      value: debug
+    - name: KONG_PROXY_ACCESS_LOG
+      value: /dev/stdout
+    - name: KONG_PROXY_ERROR_LOG
+      value: /dev/stderr
+    - name: KONG_NGINX_PROXY_PROXY_BUFFER_SIZE
+      value: 160k
+    - name: KONG_NGINX_PROXY_PROXY_BUFFERS
+      value: 64 160k
+    - name: KONG_DECLARATIVE_CONFIG
+      value: /kong.yml
+    - name: KONG_DATABASE
+      value: "off"
+    - name: KONG_PLUGINS
+      value: bundled,zipkin
+    image: docker.io/library/kong:3.3.1-alpine
+    name: kong
+    ports:
+    - containerPort: 8000
+      hostPort: 8000
+    - containerPort: 8001
+      hostPort: 8001
+    volumeMounts:
+    - mountPath: /kong.yml
+      name: kong-config
+  - name: zipkin
+    image: docker.io/openzipkin/zipkin:3.4
+    ports:
+    - containerPort: 9411
+      hostPort: 9411
+  volumes:
+  - hostPath:
+      path: ./kong.yml
+      type: File
+    name: kong-config
