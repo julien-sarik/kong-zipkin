@@ -7,14 +7,15 @@ plugins:
   config:
     http_endpoint: http://zipkin:9411/api/v2/spans
     sample_ratio: 0.99
+    default_header_type: w3c
 
 services:
-- host: httpbin.org
+- host: back-end
   name: dummy-back-end
-  port: 80
+  port: 8080
   protocol: http
   routes:
   - name: foo
     paths:
     - /foo
-    strip_path: true
+    strip_path: false

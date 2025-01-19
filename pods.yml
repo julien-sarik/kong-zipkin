@@ -42,6 +42,8 @@ spec:
     ports:
     - containerPort: 9411
       hostPort: 9411
+  - name: back-end
+    image: localhost/dummy-back-end:latest
   volumes:
   - hostPath:
       path: ./kong.yml
