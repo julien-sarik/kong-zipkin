@@ -22,5 +22,6 @@ podman network create foo
 podman play kube pods.yml --net foo
 podman play kube pods.yml --down
 ```
+![zipkin](docs/image/zipkin.png)
 ## architecture
 ![architecture](docs/image/distributed-tracing.png)
