@@ -2,6 +2,7 @@ _format_version: "3.0"
 _transform: true
 
 plugins:
+# https://docs.konghq.com/hub/kong-inc/zipkin/
 - name: zipkin
   service: dummy-back-end
   config:
